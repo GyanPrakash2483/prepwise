@@ -26,6 +26,7 @@ export async function generateRoadmap(topic) {
       }
 
       Do not number the title, eg: Use "Title" instead of "1. Title" or "a) Title".
+      The title should not contain the word Roadmap, ex: use "Photosynthesis" instead of "Photosynthesis Roadmap" as title.
 
       The output should contain only the json and nothing else.
     `
