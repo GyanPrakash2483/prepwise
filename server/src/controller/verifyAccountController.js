@@ -4,6 +4,10 @@ export default async function verifyAccountController(req, res) {
     try {
         const { email, verificationToken } = req.body
 
+        if(!email || !verificationToken) {
+            return res.status(400).send("Bad Request")
+        }
+
         const userInDB = await prisma.user.findFirst({
             where: {
                 email
