@@ -3,6 +3,8 @@ import { configDotenv } from 'dotenv'
 import { loggerMiddleware } from './middleware.js'
 import generateRoadmapController from './controller/generateRoadmap.js';
 import cors from 'cors'
+import signupController from './controller/signup.js';
+import verifyAccountController from './controller/verifyAccountController.js';
 
 configDotenv()
 
@@ -19,6 +21,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/generateroadmap', generateRoadmapController)
+
+app.post('/api/auth/signup', signupController)
+
+app.patch('/api/auth/verifyaccount', verifyAccountController)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
