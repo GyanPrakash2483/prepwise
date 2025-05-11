@@ -1,6 +1,6 @@
 import express from 'express'
 import { configDotenv } from 'dotenv'
-import { loggerMiddleware } from './middleware.js'
+import { authMiddleware, loggerMiddleware } from './middleware.js'
 import generateRoadmapController from './controller/generateRoadmap.js'
 import cors from 'cors'
 import signupController from './controller/signup.js'
@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/api/generateroadmap', generateRoadmapController)
+app.get('/api/generateroadmap',authMiddleware, generateRoadmapController)
 
 app.post('/api/auth/signup', signupController)
 
