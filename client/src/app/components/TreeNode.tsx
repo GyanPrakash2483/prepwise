@@ -1,71 +1,68 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+// components/TreeNode.tsx
+import { FC } from "react";
+import { cn } from "@/lib/utils";
 
-type TreeNodeData = {
+export interface TreeNodeData {
   title: string;
   children?: TreeNodeData[];
-};
+}
 
-type TreeNodeProps = {
+interface TreeNodeProps {
   node: TreeNodeData;
-  depth?: number;
-};
+  level?: number;
+  isLast?: boolean;
+  clickHandler: (title: string) => void
+}
 
-const depthColors = [
-  "bg-blue-100 border-blue-400",
-  "bg-green-100 border-green-400",
-  "bg-yellow-100 border-yellow-400",
-  "bg-red-100 border-red-400",
-  "bg-purple-100 border-purple-400",
-  "bg-pink-100 border-pink-400"
-];
-
-export const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
-  const [expanded, setExpanded] = useState(true);
-  const colorClass = depthColors[depth % depthColors.length];
+export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, clickHandler }) => {
   const hasChildren = node.children && node.children.length > 0;
 
   return (
-    <div className="flex flex-col items-start relative">
-      {/* Node box with toggle */}
+    <div className="relative pl-6" onClick={(e) => {
+      e.stopPropagation()
+      clickHandler(node.title)
+    }}>
+      {/* Elbow: vertical + horizontal line connector */}
+      {level > 0 && (
+        <>
+          {/* Vertical line */}
+          <div
+            className={cn(
+              "absolute left-0 w-px bg-gray-300",
+              isLast ? "-top-1 h-4" : "-top-2 bottom-0"
+            )}
+          />
+          {/* Horizontal elbow line */}
+          <div className="absolute left-0 top-3 w-6 h-px bg-gray-300" />
+        </>
+      )}
+
+      {/* Node box */}
       <div
-        className={`rounded px-4 py-2 shadow-md border-2 ${colorClass} cursor-pointer flex items-center gap-2`}
-        onClick={() => hasChildren && setExpanded(!expanded)}
-      >
-        {hasChildren && (
-          <span className="text-gray-600 font-bold">
-            {expanded ? "−" : "+"}
-          </span>
+        className={cn(
+          "inline-block bg-muted text-sm text-muted-foreground",
+          "px-4 py-2 mb-2 rounded-md border border-gray-300 shadow-sm",
+          "hover:border-primary hover:bg-primary/10 transition-colors duration-150",
+          "text-white hover:cursor-pointer"
         )}
-        <span>{node.title}</span>
+      >
+        {node.title}
       </div>
 
-      {/* Animated children section */}
-      <AnimatePresence initial={false}>
-        {hasChildren && expanded && (
-          <motion.div
-            key="children"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="flex flex-col items-start mt-2 relative">
-              {/* Children stack with left vertical border only where needed */}
-              <div className="flex flex-col gap-4 pl-6 ml-10 border-l-2 border-gray-300 relative">
-                {node.children?.map((child, index) => (
-                  <div key={index} className="relative">
-                    {/* Horizontal connector */}
-                    <div className="absolute -left-6 top-5 w-6 h-px bg-gray-400" />
-                    <TreeNode node={child} depth={depth + 1} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Children container with single vertical line */}
+      {hasChildren && (
+        <div className="pl-4 ml-2 relative">
+          {node.children!.map((child, index) => (
+            <TreeNode
+              key={index}
+              node={child}
+              level={level + 1}
+              isLast={index === node.children!.length - 1}
+              clickHandler={clickHandler}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

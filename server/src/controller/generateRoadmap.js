@@ -5,7 +5,7 @@ export default async function generateRoadmapController(req, res) {
     const { topic } = req.query;
 
     if (!topic) {
-        res.status(400).json({ error: 'Topic is required' });
+        return res.status(400).send('Topic is required');
     }
 
     try {
@@ -28,11 +28,12 @@ export default async function generateRoadmapController(req, res) {
 
         const roadmap = await generateRoadmap(topic);
         res.writeHead(200, {
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain',
         })
 
         for await (const chunk of roadmap) {
             res.write(chunk.text)
+            console.log(chunk.text)
         }
 
         res.end()

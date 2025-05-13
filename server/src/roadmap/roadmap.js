@@ -1,15 +1,10 @@
-import { GoogleGenAI, Type } from '@google/genai'
-import { configDotenv } from 'dotenv'
-
-configDotenv()
-
-const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY})
-
+import ai from '../util/ai.js'
 
 export async function generateRoadmap(topic) {
+  // console.log(topic)
   const response = await ai.models.generateContentStream({
     model: 'gemini-2.0-flash',
-    contents: `Generate a roadmap about ${topic}. The roadmap should be in json format with following schema.
+    contents: `Generate a roadmap about "${topic}". The roadmap should be in json format with following schema.
       {
         title: "Title"
         children: [
