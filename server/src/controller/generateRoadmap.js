@@ -33,7 +33,7 @@ export default async function generateRoadmapController(req, res) {
 
         for await (const chunk of roadmap) {
             res.write(chunk.text)
-            console.log(chunk.text)
+            // console.log(chunk.text)
         }
 
         res.end()

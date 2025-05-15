@@ -41,7 +41,7 @@ export default async function signupController(req, res) {
                 name,
                 email,
                 password: hashed_password_with_salt,
-                credits: 50,
+                credits: 150,
                 isverified: false,
                 sessiontokens: [],
                 verificationtoken: crypto.randomBytes(16).toString('base64url'),
@@ -49,8 +49,7 @@ export default async function signupController(req, res) {
             }
         })
 
-        const verificationURL = encodeURI(`${process.env.FRONTEND_HOST}/verifyAccount?email=${email}&verificationtoken=${userInDB.verificationtoken}`)
-        console.log(verificationURL)
+        const verificationURL = encodeURI(`${process.env.FRONTEND_HOST}/verifyaccount?email=${email}&verificationtoken=${userInDB.verificationtoken}`)
 
         sendEmail(email, 'Welcome to Prepwise - Verify Your Account',
             `

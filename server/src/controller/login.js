@@ -29,7 +29,7 @@ export default async function loginController(req, res) {
         const userGivenPasswordHash = crypto.pbkdf2Sync(password, salt, 512, 512, 'sha512').toString('base64')
 
         if(userGivenPasswordHash !== passwordHash) {
-            return res.status(403).send("Wrong Password")
+            return res.status(401).send("Wrong Credentials")
         }
 
         // Authenticity Verified

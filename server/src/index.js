@@ -7,6 +7,9 @@ import signupController from './controller/signup.js'
 import verifyAccountController from './controller/verifyAccount.js'
 import loginController from './controller/login.js'
 import aiDescriptionController from './controller/aiDescription.js'
+import userController from './controller/user.js'
+import logoutController from './controller/logout.js'
+import deleteAccountController from './controller/deleteAccount.js'
 
 configDotenv()
 
@@ -31,6 +34,12 @@ app.patch('/api/auth/verifyaccount', verifyAccountController)
 app.post('/api/auth/login', loginController)
 
 app.get('/api/aidescription', authMiddleware, aiDescriptionController)
+
+app.get('/api/user', authMiddleware, userController)
+
+app.patch('/api/auth/logout', authMiddleware, logoutController)
+
+app.delete('/api/auth/deleteaccount', authMiddleware, deleteAccountController)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

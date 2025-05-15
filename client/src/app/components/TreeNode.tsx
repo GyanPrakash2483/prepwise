@@ -43,7 +43,7 @@ export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, c
           "inline-block bg-muted text-sm text-muted-foreground",
           "px-4 py-2 mb-2 rounded-md border border-gray-300 shadow-sm",
           "hover:border-primary hover:bg-primary/10 transition-colors duration-150",
-          "text-white hover:cursor-pointer"
+          "dark:text-white hover:cursor-pointer text-black"
         )}
       >
         {node.title}
