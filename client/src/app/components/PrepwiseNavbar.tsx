@@ -68,8 +68,8 @@ export default function PrepwiseNavbar() {
     
 
     return (
-        <div className='flex justify-between items-center p-2'>
-            <Link href='/'>
+        <div className='flex justify-between items-center p-2 max-md:flex-col'>
+            <Link href='/' className='max-md:hidden'>
                 {
                     theme == 'dark'
                     ?
@@ -83,7 +83,7 @@ export default function PrepwiseNavbar() {
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>Features</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <div className='grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'>
+                            <div className='grid gap-3 p-4 md:w-[400px] lg:w-[500px] grid-cols-1 lg:grid-cols-[.75fr_1fr]'>
                                 <div className='rounded-md px-4 py-3 transition-colors hover:bg-muted hover:shadow-sm flex justify-center items-center flex-col gap-5'>
                                     {
                                         theme == 'dark'

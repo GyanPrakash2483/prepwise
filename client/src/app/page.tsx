@@ -9,6 +9,21 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import ReactMarkdown from 'react-markdown'
 import PrepwiseNavbar from "./components/PrepwiseNavbar";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import Markdown from "react-markdown";
+
+function UseIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => setIsMobile(window.innerWidth < breakpoint);
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 
 export default function Home() {
   const [roadmap, setRoadmap] = useState('')
@@ -16,6 +31,7 @@ export default function Home() {
   const [context, setContext] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
   const [outOfCredits, setOutOfCredits] = useState(false)
+  const [mobileDrawerOut, setMobileDrawerOut] = useState(false)
 
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
 
@@ -95,13 +111,21 @@ export default function Home() {
     // console.log(err)
   }
 
+  const isMobile = UseIsMobile()
+
   const [AIDescription, setAIDescription] = useState('')
 
   const getDescription = async (topic: string) => {
 
-    document.getElementById('description_panel')?.scrollIntoView({
-      behavior: 'smooth',
-    })
+    setAIDescription('')
+
+    if(!isMobile) {
+      document.getElementById('description_panel')?.scrollIntoView({
+        behavior: 'smooth',
+      })
+    } else {
+      setMobileDrawerOut(true)
+    }
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/aidescription?topic=${topic}&context=${context || 'General World'}`, {
       headers: {
@@ -113,8 +137,6 @@ export default function Home() {
     const decoder = new TextDecoder('utf-8')
 
     if (!reader) return
-
-    setAIDescription('')
 
     while (true) {
       const { done, value } = await reader.read()
@@ -140,12 +162,19 @@ export default function Home() {
       {
         roadmap &&
         <div>
-          <ResizablePanelGroup direction={window.innerWidth > 400 ? "horizontal" : "vertical"} className="border md:min-w-[450px]">
-            <ResizablePanel className="p-10 min-h-[100vh] overflow-scroll">
+          {
+            isMobile
+            ?
+            <div>
+              <TreeNode node={parsedRoadmapObject as TreeNodeData} clickHandler={getDescription} />
+            </div>
+            :
+            <ResizablePanelGroup direction="horizontal" className="border">
+            <ResizablePanel className="p-10">
               <TreeNode node={parsedRoadmapObject as TreeNodeData} clickHandler={getDescription} />
             </ResizablePanel>
             <ResizableHandle />
-            <ResizablePanel className="p-10 min-h-[100vh] overflow-scroll" id="description_panel">
+            <ResizablePanel className="p-10" id="description_panel">
               <div>
                 <ReactMarkdown components={{
                   h1: ({ ...props }) => <h1 className="text-3xl font-bold my-4" {...props} />,
@@ -160,6 +189,8 @@ export default function Home() {
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>
+          }
+          
         </div>
       }
 
@@ -175,7 +206,9 @@ export default function Home() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel onClick={() => {
+                setOutOfCredits(false)
+              }}>Cancel</AlertDialogCancel>
               <AlertDialogAction onClick={() => {
                 location.href = '/credits'
               }}>Buy Credits</AlertDialogAction>
@@ -183,6 +216,28 @@ export default function Home() {
           </AlertDialogContent>
         </AlertDialog>
       }
+
+      <Drawer open={mobileDrawerOut} onClose={() => {
+        setMobileDrawerOut(false)
+      }} >
+        <DrawerContent>
+          <DrawerHeader className="overflow-scroll">
+            <DrawerTitle>
+              More Info
+            </DrawerTitle>
+            <Markdown components={{
+                h1: ({ ...props }) => <h1 className="text-3xl font-bold my-4" {...props} />,
+                h2: ({ ...props }) => <h2 className="text-2xl font-semibold my-3" {...props} />,
+                p: ({ ...props }) => <p className="my-2" {...props} />,
+                ul: ({ ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                a: ({ ...props }) => <a className="text-blue-600 underline" target="_blank" rel="noopener" {...props} />,
+                // ...add more as needed
+            }}>
+              {AIDescription}
+            </Markdown>
+          </DrawerHeader>
+        </DrawerContent>
+      </Drawer>
     </div>
   )
 }
