@@ -81,6 +81,9 @@ export default function PrepwiseNavbar() {
             <NavigationMenu>
                 <NavigationMenuList>
                     <NavigationMenuItem>
+                            <NavigationMenuLink href='/' className={navigationMenuTriggerStyle()}>Home</NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
                         <NavigationMenuTrigger>Features</NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className='grid gap-3 p-4 md:w-[400px] lg:w-[500px] grid-cols-1 lg:grid-cols-[.75fr_1fr]'>
