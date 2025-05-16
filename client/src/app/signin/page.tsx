@@ -157,8 +157,6 @@ export default function SignUpPage() {
                     </AlertDialogHeader>
                 </AlertDialogContent>
             </AlertDialog>
-
-            
         </div>
     )
 }

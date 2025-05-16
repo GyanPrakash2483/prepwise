@@ -10,6 +10,7 @@ import aiDescriptionController from './controller/aiDescription.js'
 import userController from './controller/user.js'
 import logoutController from './controller/logout.js'
 import deleteAccountController from './controller/deleteAccount.js'
+import './services.js'
 
 configDotenv()
 
