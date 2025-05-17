@@ -11,6 +11,7 @@ import userController from './controller/user.js'
 import logoutController from './controller/logout.js'
 import deleteAccountController from './controller/deleteAccount.js'
 import './services.js'
+import claimFreeCredits from './controller/claimFreeCredits.js'
 
 configDotenv()
 
@@ -41,6 +42,8 @@ app.get('/api/user', authMiddleware, userController)
 app.patch('/api/auth/logout', authMiddleware, logoutController)
 
 app.delete('/api/auth/deleteaccount', authMiddleware, deleteAccountController)
+
+app.patch('/api/credits/claimfree', authMiddleware, claimFreeCredits)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

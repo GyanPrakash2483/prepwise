@@ -1,5 +1,5 @@
 # TODO
 
-- Add credit system
-- Make pricing and contact page
+- Add captcha at signup
 - Add ratelimiting
+- Add analytics

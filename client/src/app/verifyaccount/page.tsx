@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Loader2, CheckCircle, XCircle } from "lucide-react"
 
@@ -33,7 +33,6 @@ export default function VerifyAccountPage() {
   }, [theme])
 
   const searchParams = useSearchParams()
-  const router = useRouter()
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [message, setMessage] = useState('Verifying your account...')
@@ -78,7 +77,7 @@ export default function VerifyAccountPage() {
     }
 
     verifyAccount()
-  }, [searchParams, router])
+  }, [searchParams])
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">

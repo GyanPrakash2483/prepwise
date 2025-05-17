@@ -7,12 +7,12 @@ cron.schedule(freeCreditAirdropTime, async () => {
     const result = await prisma.user.updateMany({
         where: {
             credits: {
-            lt: 50,
+                lt: 50,
             },
         },
         data: {
             credits: {
-            increment: 50,
+                increment: 50,
             },
         }
     });
