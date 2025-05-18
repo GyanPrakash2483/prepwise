@@ -1,6 +1,6 @@
 import express from 'express'
 import { configDotenv } from 'dotenv'
-import { authMiddleware, loggerMiddleware } from './middleware.js'
+import { authMiddleware, limiterMiddleware, loggerMiddleware } from './middleware.js'
 import generateRoadmapController from './controller/generateRoadmap.js'
 import cors from 'cors'
 import signupController from './controller/signup.js'
@@ -21,6 +21,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json())
 app.use(loggerMiddleware)
+app.use(limiterMiddleware)
 app.use(cors())
 
 app.get('/', (req, res) => {

@@ -1,5 +1,5 @@
 import { getUserFromSessionToken } from "./util/commonUtils.js"
-import prisma from "./util/db.js"
+import { rateLimit } from 'express-rate-limit'
 
 export function loggerMiddleware(req, res, next) {
     console.log(`[${req.ip}:${Date.now()}] - ${req.method} ${req.url}`)
@@ -29,3 +29,11 @@ export async function authMiddleware(req, res, next) {
         return res.status(500).send("Internal server error, please report this incident")
     }
 }
+
+export const limiterMiddleware = rateLimit({
+	windowMs: 60 * 1000, // 1 minute
+	limit: 15,
+    message: 'Slow Down. You are being rate limited.',
+	standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+	legacyHeaders: false
+})
