@@ -9,5 +9,5 @@ export default async function deleteAccountController(req, res) {
 
     console.log(userDeleted)
 
-    
+    res.status(200).send('Account Deleted')
 }
