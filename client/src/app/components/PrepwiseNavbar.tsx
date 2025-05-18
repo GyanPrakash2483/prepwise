@@ -209,9 +209,23 @@ export default function PrepwiseNavbar() {
                             </Sheet>
                         </div>
                     :
+                    <div className='flex items-center justify-center gap-8'>
+                        <Button variant='outline' className='rounded-[200px]' onClick={() => {
+                            localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark')
+                            setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark')
+                        }}>
+                            {
+                                theme === 'dark'
+                                ?
+                                    <Moon />
+                                :
+                                    <Sun />
+                            }
+                        </Button>
                         <Button onClick={() => {
                             location.href = '/signin'
                         }}>Sign In</Button>
+                    </div>
                 }
                 
             </div>
