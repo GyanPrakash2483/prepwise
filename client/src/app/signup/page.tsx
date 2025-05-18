@@ -8,6 +8,15 @@ import Link from "next/link"
 import { Separator } from "@/components/ui/separator"
 import { useState, useEffect } from "react"
 import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import Script from "next/script"
+
+declare global {
+    interface Window {
+        turnstile: {
+            render: (selector: string, options: { sitekey: string, callback: (token: string) => void }) => void;
+        };
+    }
+}
 
 export default function SignUpPage() {
 
@@ -36,6 +45,27 @@ export default function SignUpPage() {
 
     }, [theme])
 
+    const [turnstileToken, setTurnstileToken] = useState('')
+
+    useEffect(() => {
+
+        const showTurnstile = () => {
+            window.turnstile.render('#cf-turnstile', {
+                sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
+                callback: (token: string) => {
+                    setTurnstileToken(token)
+                }
+            })
+        }
+
+        const turnstileTimeout = setTimeout(() => {
+            if(window.turnstile) {
+                clearTimeout(turnstileTimeout)
+                showTurnstile()
+            }
+        }, 100)
+    }, [])
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -45,6 +75,7 @@ export default function SignUpPage() {
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
+    const [turnstileError, setTurnstileError] = useState('')
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [showError, setShowError] = useState(false)
@@ -57,6 +88,7 @@ export default function SignUpPage() {
                     <h1 className="text-3xl font-bold">Create your account</h1>
                     <p className="text-sm">Sign up to get started</p>
                 </div>
+                <Script type='text/javascript' src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit' async defer />
                 <form className="space-y-4">
                     <Input type="text" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} />
                     {nameError && <p className='text-red-500 text-sm pl-2'>{nameError}</p>}
@@ -71,6 +103,9 @@ export default function SignUpPage() {
                     {confirmPasswordError && <p className='text-red-500 text-sm pl-2'>{confirmPasswordError}</p>}
 
                     <br />
+                    <div id='cf-turnstile' data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
+                    {turnstileError && <p className='text-red-500 text-sm pl-2'>{turnstileError}</p>}
+
                     <Button className="w-full" onClick={async (e) => {
                         e.preventDefault()
 
@@ -110,6 +145,13 @@ export default function SignUpPage() {
                             setEmailError('')
                         }
 
+                        if(!turnstileToken) {
+                            setTurnstileError('Please complete robot verification.')
+                            return
+                        } else {
+                            setTurnstileError('')
+                        }
+
                         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/auth/signup`, {
                             method: 'POST',
                             headers: {
@@ -118,7 +160,8 @@ export default function SignUpPage() {
                             body: JSON.stringify({
                                 name,
                                 email,
-                                password
+                                password,
+                                turnstileToken
                             })
                         })
 
@@ -170,8 +213,6 @@ export default function SignUpPage() {
                     </AlertDialogHeader>
                 </AlertDialogContent>
             </AlertDialog>
-
-            
         </div>
     )
 }

@@ -9,9 +9,9 @@ configDotenv()
 
 export default async function signupController(req, res) {
     try {
-        const {name, email, password} = req.body
+        const {name, email, password, turnstileToken} = req.body
 
-        if(!name || !email) {
+        if(!name || !email || !password || !turnstileToken) {
             return res.status(400).send("Bad Request")
         }
 
@@ -27,6 +27,24 @@ export default async function signupController(req, res) {
 
         if(!isValidEmail(email)) {
             return res.status(400).send("Not a valid email")
+        }
+
+        // Robot verification
+        const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                secret: process.env.TURNSTILE_SECRET,
+                response: turnstileToken
+            })
+        })
+
+        const outcome = await response.json()
+
+        if(!outcome.success) {
+            return res.status(400).send('Robot verification failed.')
         }
 
         // Genrerate Salt and Password Hash
