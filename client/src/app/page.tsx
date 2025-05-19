@@ -156,7 +156,7 @@ export default function Home() {
         <Input className="w-80" type="text" placeholder="What do you wish to study?" value={topic} onChange={(e) => setTopic(e.target.value)} />
         <Button onClick={() => {
           generateRoadmap(topic)
-        }}> Generate Roadmap </Button>
+        }}> Generate Roadmap temp test </Button>
       </div>
 
       {
