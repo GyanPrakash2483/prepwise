@@ -69,25 +69,32 @@ export default async function signupController(req, res) {
 
         const verificationURL = encodeURI(`${process.env.FRONTEND_HOST}/verifyaccount?email=${email}&verificationtoken=${userInDB.verificationtoken}`)
 
-        sendEmail(email, 'Welcome to Prepwise - Verify Your Account',
+        sendEmail(email, 'Welcome to Prepwise!',
             `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
-                    <h2 style="color: #2c3e50;">Thanks for signing up for Prepwise!</h2>
-                    <p>Hi there,</p>
-                    <p>We're excited to have you on board. Prepwise is your smart companion for test prep, productivity, and beyond.</p>
-                    <p>Please verify your email address to activate your account:</p>
-                    <div style="text-align: center; margin: 30px 0;">
-                        <a href="${verificationURL}"
-                            style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                            Verify My Account
-                        </a>
-                        <br />
-                        <br />
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; color: #2c3e50;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <img src="${process.env.FRONTEND_HOST}/logo-black.png" alt="Prepwise Logo" style="max-width: 150px; height: auto;" />
                     </div>
-                    <p>If you didn't sign up for Prepwise, you can safely ignore this email.</p>
+                    <h2>Welcome to Prepwise!</h2>
+                    <p>Hello,</p>
+                    <p>Thank you for signing up for Prepwise — your smart companion for test prep, productivity, and beyond.</p>
+                    <p>To activate your account, please verify your email address by clicking the button below:</p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${verificationURL}" 
+                        style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                        Verify My Account
+                        </a>
+                    </div>
+                    <p>If the button above does not work, please copy and paste the following URL into your browser:</p>
+                    <p style="word-break: break-word; font-size: 14px; color: #555;">${verificationURL}</p>
+                    <p>If you did not create an account with Prepwise, you can safely ignore this email.</p>
                     <hr style="border: none; border-top: 1px solid #eee;" />
-                    <p style="font-size: 12px; color: #888;">Need help? Just reply to this message or contact us at prepwise.gpsj@gmail.com</p>
+                    <p style="font-size: 12px; color: #888;">
+                        Need help? Reply to this email or contact us at <a href="${process.env.FRONTEND_HOST}/contact" style="color: #4CAF50;">${process.env.FRONTEND_HOST}/contact</a><br />
+                        Visit us: <a href="${process.env.FRONTEND_HOST}" style="color: #4CAF50;">${process.env.FRONTEND_HOST}</a>
+                    </p>
                 </div>
+
             `
         )
 
