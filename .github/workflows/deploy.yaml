@@ -22,13 +22,14 @@ jobs:
           cd client
           npm install
 
-      - name: Build static site (Next.js with output: 'export')
-        run: |
-          cd client
-          npm run build
+      - name: Build static site
         env:
           NEXT_PUBLIC_BACKEND_HOST: ${{ secrets.NEXT_PUBLIC_BACKEND_HOST }}
           NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+        run: |
+          cd client
+          npm run build
+        
 
       - name: Deploy to FTP server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
