@@ -146,7 +146,7 @@ export default function SignUpPage() {
                         }
 
                         if(!turnstileToken) {
-                            setTurnstileError('Please complete robot verification.')
+                            setTurnstileError('Please complete robot verification. If it does not appear, refresh the page.')
                             return
                         } else {
                             setTurnstileError('')
