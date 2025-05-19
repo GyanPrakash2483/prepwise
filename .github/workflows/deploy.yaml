@@ -41,5 +41,5 @@ jobs:
           server-dir: htdocs/
           dangerous-clean-slate: true
           exclude: |
-            .htaccess
+            **/.htaccess
           log-level: verbose
