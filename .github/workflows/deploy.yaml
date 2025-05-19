@@ -37,7 +37,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./client/out
+          local-dir: ./client/out/
           server-dir: htdocs/
           dangerous-clean-slate: true
           exclude: |
