@@ -12,6 +12,8 @@ import logoutController from './controller/logout.js'
 import deleteAccountController from './controller/deleteAccount.js'
 import './services.js'
 import claimFreeCredits from './controller/claimFreeCredits.js'
+import saveRoadmap from './controller/saveRoadmap.js'
+import getRoadmap from './controller/getRoadmap.js'
 
 configDotenv()
 
@@ -45,6 +47,10 @@ app.patch('/api/auth/logout', authMiddleware, logoutController)
 app.delete('/api/auth/deleteaccount', authMiddleware, deleteAccountController)
 
 app.patch('/api/credits/claimfree', authMiddleware, claimFreeCredits)
+
+app.post('/api/roadmap', authMiddleware, saveRoadmap)
+
+app.get('/api/roadmap/:id', authMiddleware, getRoadmap)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

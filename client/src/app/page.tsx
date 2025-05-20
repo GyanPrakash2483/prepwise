@@ -190,7 +190,27 @@ export default function Home() {
             </ResizablePanel>
           </ResizablePanelGroup>
           }
-          
+          <div className="p-6 flex justify-center items-center">
+            <Button onClick={async () => {
+              const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/roadmap`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('session_token')}`
+                },
+                body: JSON.stringify({
+                  roadmapObject: parsedRoadmapObject
+                })
+              })
+
+              if(response.ok) {
+                const data = await response.json()
+                if(data.success) {
+                  location.href = `/roadmap?id=${data.roadmapId}`
+                }
+              }
+            }}> Save Roadmap </Button>
+          </div>
         </div>
       }
 

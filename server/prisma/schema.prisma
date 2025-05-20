@@ -19,3 +19,10 @@ model User {
   roadmaps          Int[]
   password          String
 }
+
+model Roadmap {
+  id            Int    @id @default(autoincrement())
+  roadmapTitle  String
+  roadmapObject String
+  owner         Int
+}

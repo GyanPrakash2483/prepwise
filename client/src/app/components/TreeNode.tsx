@@ -22,22 +22,18 @@ export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, c
       e.stopPropagation()
       clickHandler(node.title)
     }}>
-      {/* Elbow: vertical + horizontal line connector */}
       {level > 0 && (
         <>
-          {/* Vertical line */}
           <div
             className={cn(
               "absolute left-0 w-px bg-gray-300",
               isLast ? "-top-1 h-4" : "-top-2 bottom-0"
             )}
           />
-          {/* Horizontal elbow line */}
           <div className="absolute left-0 top-3 w-6 h-px bg-gray-300" />
         </>
       )}
 
-      {/* Node box */}
       <div
         className={cn(
           "inline-block bg-muted text-sm text-muted-foreground",
@@ -49,7 +45,6 @@ export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, c
         {node.title}
       </div>
 
-      {/* Children container with single vertical line */}
       {hasChildren && (
         <div className="pl-4 ml-2 relative">
           {node.children!.map((child, index) => (
