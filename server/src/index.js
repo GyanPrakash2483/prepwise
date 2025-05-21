@@ -15,6 +15,8 @@ import claimFreeCredits from './controller/claimFreeCredits.js'
 import saveRoadmap from './controller/saveRoadmap.js'
 import getRoadmap from './controller/getRoadmap.js'
 import toggleCompletion from './controller/toggleCompletion.js'
+import getRoadmapList from './controller/getRoadmapList.js'
+import deleteRoadmap from './controller/deleteRoadmap.js'
 
 configDotenv()
 
@@ -31,7 +33,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/api/roadmap',authMiddleware, generateRoadmapController)
+app.get('/api/roadmap', authMiddleware, generateRoadmapController)
 
 app.post('/api/auth/signup', signupController)
 
@@ -54,6 +56,10 @@ app.post('/api/roadmap', authMiddleware, saveRoadmap)
 app.get('/api/roadmap/:id', authMiddleware, getRoadmap)
 
 app.patch('/api/roadmap/:id/togglecompletion/:uuid', authMiddleware, toggleCompletion)
+
+app.get('/api/roadmaplist', authMiddleware, getRoadmapList)
+
+app.delete('/api/roadmap/:id', authMiddleware, deleteRoadmap)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

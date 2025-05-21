@@ -166,12 +166,12 @@ export default function Home() {
             isMobile
             ?
             <div>
-              <TreeNode node={parsedRoadmapObject as TreeNodeData} clickHandler={getDescription} />
+              <TreeNode node={parsedRoadmapObject as TreeNodeData} clickHandler={getDescription} rightClickHandler={() => {}} />
             </div>
             :
             <ResizablePanelGroup direction="horizontal" className="border">
             <ResizablePanel className="p-10">
-              <TreeNode node={parsedRoadmapObject as TreeNodeData} clickHandler={getDescription} />
+              <TreeNode node={parsedRoadmapObject as TreeNodeData} clickHandler={getDescription} rightClickHandler={() => {}} />
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel className="p-10" id="description_panel">

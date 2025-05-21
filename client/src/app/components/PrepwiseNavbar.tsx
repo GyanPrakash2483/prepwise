@@ -158,6 +158,9 @@ export default function PrepwiseNavbar() {
                                         {email}
                                     </SheetDescription>
                                     <SheetHeader>
+                                        <Button variant='secondary' onClick={() => {
+                                            location.href = '/roadmaps'
+                                        }}>Saved Roadmaps</Button>
                                         <Button variant='secondary' onClick={async () => {
                                             await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/auth/logout`, {
                                                 method: 'PATCH',

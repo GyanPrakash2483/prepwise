@@ -5,8 +5,10 @@ function annotateRoadmap(roadmapObject) {
     roadmapObject.isCompleted = false,
     roadmapObject.uuid = crypto.randomUUID()
 
-    for (const child of roadmapObject.children) {
-        annotateRoadmap(child)
+    if(roadmapObject.children) {
+        for (const child of roadmapObject.children) {
+            annotateRoadmap(child)
+        }
     }
 }
 

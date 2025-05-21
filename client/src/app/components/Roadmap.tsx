@@ -1,10 +1,9 @@
 'use client'
 
-import { FC, useEffect, useState } from "react";
-import { TreeNode, TreeNodeData, TreeNodeProps } from "./TreeNode";
+import { useEffect, useState } from "react";
+import { TreeNode, TreeNodeData } from "./TreeNode";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import ReactMarkdown from "react-markdown";
-import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 
 function UseIsMobile(breakpoint = 768) {
