@@ -109,7 +109,7 @@ const Roadmap = (props: RoadmapProps) => {
             {
             isMobile
             ?
-            <div className="pr-3">
+            <div className="pr-3 mt-4">
                 <TreeNode node={roadmap.roadmapObject as TreeNodeData} clickHandler={nodeClickHandler} rightClickHandler={nodeOnRightClick} key={rerenderKey} />
             </div>
             :
