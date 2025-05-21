@@ -27,7 +27,3 @@ Prepwise is live at: [https://prepwise.ct.ws/](https://prepwise.ct.ws/)
 ## License
 
 See [license](./LICENSE.md)
-
-## TODO
-
- - Refactor roadmap display component
