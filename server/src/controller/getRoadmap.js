@@ -15,6 +15,8 @@ export default async function getRoadmap(req, res) {
             res.status(404).send('Roadmap does not exist.')
         }
 
+        roadmapInDB.roadmapObject = JSON.parse(roadmapInDB.roadmapObject)
+
         res.send({
             success: true,
             roadmap: roadmapInDB

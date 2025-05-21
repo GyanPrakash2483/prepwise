@@ -1,26 +1,34 @@
 // components/TreeNode.tsx
 import { FC } from "react";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 export interface TreeNodeData {
   title: string;
   children?: TreeNodeData[];
+  uuid: string;
+  isCompleted: boolean;
 }
 
-interface TreeNodeProps {
+export interface TreeNodeProps {
   node: TreeNodeData;
   level?: number;
   isLast?: boolean;
   clickHandler: (title: string) => void
+  rightClickHandler: (uuid: string) => void
 }
 
-export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, clickHandler }) => {
+export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, clickHandler, rightClickHandler }) => {
   const hasChildren = node.children && node.children.length > 0;
 
   return (
     <div className="relative pl-6" onClick={(e) => {
       e.stopPropagation()
       clickHandler(node.title)
+    }} onContextMenu={(e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      rightClickHandler(node.uuid)
     }}>
       {level > 0 && (
         <>
@@ -42,7 +50,10 @@ export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, c
           "dark:text-white hover:cursor-pointer text-black"
         )}
       >
-        {node.title}
+        <div className="flex items-center justify-center gap-6">
+          {node.title}
+          {node.isCompleted && <Check color='#2ea80f' />}
+        </div>
       </div>
 
       {hasChildren && (
@@ -54,6 +65,7 @@ export const TreeNode: FC<TreeNodeProps> = ({ node, level = 0, isLast = false, c
               level={level + 1}
               isLast={index === node.children!.length - 1}
               clickHandler={clickHandler}
+              rightClickHandler={rightClickHandler}
             />
           ))}
         </div>

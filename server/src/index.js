@@ -14,6 +14,7 @@ import './services.js'
 import claimFreeCredits from './controller/claimFreeCredits.js'
 import saveRoadmap from './controller/saveRoadmap.js'
 import getRoadmap from './controller/getRoadmap.js'
+import toggleCompletion from './controller/toggleCompletion.js'
 
 configDotenv()
 
@@ -51,6 +52,8 @@ app.patch('/api/credits/claimfree', authMiddleware, claimFreeCredits)
 app.post('/api/roadmap', authMiddleware, saveRoadmap)
 
 app.get('/api/roadmap/:id', authMiddleware, getRoadmap)
+
+app.patch('/api/roadmap/:id/togglecompletion/:uuid', authMiddleware, toggleCompletion)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

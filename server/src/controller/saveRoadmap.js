@@ -28,6 +28,21 @@ export default async function saveRoadmap(req, res) {
             throw new Error('Failed to save roadmap to Database')
         }
 
+        const userOwned = await prisma.user.update({
+            where: {
+                id: req.user.id
+            },
+            data: {
+                roadmaps: {
+                    push: savedRoadmap.id
+                }
+            }
+        })
+
+        if(!userOwned) {
+            throw new Error('Failed to provide roadmap ownership to user.')
+        }
+
         res.status(201).send({
             success: true,
             roadmapId: savedRoadmap.id

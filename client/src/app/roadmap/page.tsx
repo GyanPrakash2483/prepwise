@@ -2,17 +2,12 @@
 
 import { useEffect, useState } from "react";
 import PrepwiseNavbar from "../components/PrepwiseNavbar";
-import { TreeNode, TreeNodeData } from "../components/TreeNode";
 import { useSearchParams } from "next/navigation";
+import Roadmap, { Roadmap_T } from "../components/Roadmap";
 
-export default function Roadmap() {
+export default function RoadmapView() {
     
     const [roadmap, setRoadmap] = useState<object | null>(null)
-    const [roadmaptitle, setRoadmapTitle] = useState('')
-    
-    const nodeClickHandler = (topic: string) => {
-
-    }
 
     const searchParams = useSearchParams()
 
@@ -25,20 +20,17 @@ export default function Roadmap() {
             })
             if(response.ok) {
                 const data = await response.json()
-                setRoadmap(JSON.parse(data.roadmap.roadmapObject))
-                setRoadmapTitle(data.roadmap.title)
+                setRoadmap(data.roadmap)
             }
 
         })()
     }, [])
 
-    console.log(roadmap)
-
     return (
         <div>
             <PrepwiseNavbar />
             <div>
-                {roadmap && <TreeNode node={roadmap as TreeNodeData} clickHandler={nodeClickHandler} />}
+                {roadmap && <Roadmap roadmap={roadmap as Roadmap_T} />}
             </div>
         </div>
     )
