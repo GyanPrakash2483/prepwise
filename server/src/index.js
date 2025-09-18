@@ -41,7 +41,7 @@ app.patch('/api/auth/verifyaccount', verifyAccountController)
 
 app.post('/api/auth/login', loginController)
 
-app.get('/api/aidescription', authMiddleware, aiDescriptionController)
+app.get('/api/aidescription', aiDescriptionController)
 
 app.get('/api/user', authMiddleware, userController)
 
