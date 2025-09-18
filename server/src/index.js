@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/api/roadmap', authMiddleware, generateRoadmapController)
+app.get('/api/roadmap', generateRoadmapController)
 
 app.post('/api/auth/signup', signupController)
 
